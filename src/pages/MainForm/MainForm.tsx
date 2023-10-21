@@ -22,11 +22,11 @@ const FormContainer = styled.form`
 const MainForm = (): JSX.Element => {
   return (
     <FormContainer>
-      <Input type="text" label="Nombre" id="name" />
+      <Input type="text" label="Name" id="name" />
 
-      <Input type="text" label="Apellido" id="last-name" />
+      <Input type="text" label="Last name" id="last-name" />
 
-      <Input type="number" label="Edad" id="age" />
+      <Input type="number" label="Age" id="age" />
     </FormContainer>
   );
 };

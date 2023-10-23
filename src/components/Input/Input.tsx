@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useInput from "./useInput";
+import { ChangeEventHandler } from "react";
 
 const Container = styled.div`
   position: relative;
@@ -38,9 +39,15 @@ interface IInputProps {
   id: string;
   type?: "text" | "number";
   label: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-const Input = ({ type = "text", label, id }: IInputProps): JSX.Element => {
+const Input = ({
+  type = "text",
+  label,
+  id,
+  onChange,
+}: IInputProps): JSX.Element => {
   const {
     state: { inputRef },
     actions: { onContainerClick, onInputKeyDown },
@@ -48,7 +55,13 @@ const Input = ({ type = "text", label, id }: IInputProps): JSX.Element => {
 
   return (
     <Container onClick={onContainerClick}>
-      <RawInput ref={inputRef} type={type} id={id} onKeyDown={onInputKeyDown} />
+      <RawInput
+        ref={inputRef}
+        type={type}
+        id={id}
+        onKeyDown={onInputKeyDown}
+        onChange={onChange}
+      />
       <Label onClick={() => console.log("1")} htmlFor={id}>
         {label}
       </Label>

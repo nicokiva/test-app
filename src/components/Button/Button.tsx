@@ -1,14 +1,13 @@
 import MUIButton from "@mui/material/Button";
-import React from "react";
 
 interface IButtonProps {
   text: string;
-  style?: React.CSSProperties;
+  type?: "submit" | "button";
 }
 
-const Button = ({ text, style }: IButtonProps) => {
+const Button = ({ text, type = "button" }: IButtonProps) => {
   return (
-    <MUIButton style={style} fullWidth variant="contained">
+    <MUIButton type={type} fullWidth variant="contained">
       {text}
     </MUIButton>
   );

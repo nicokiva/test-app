@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Input, Select } from "../../components";
 import { Button } from "../../components/Button";
+import useMainForm from "./useMainForm";
 
-const FormContainer = styled.form`
+const Form = styled.form`
   border: solid 1px;
   padding: 50px 20px;
 `;
@@ -37,12 +38,21 @@ const BottomBar = styled.div`
 `;
 
 const MainForm = (): JSX.Element => {
+  const {
+    actions: { onFormSubmit, onInputChange },
+  } = useMainForm();
+
   return (
-    <FormContainer>
+    <Form onSubmit={onFormSubmit}>
       <InputsContainer>
-        <Input type="text" label="Name" id="name" />
-        <Input type="text" label="Last name" id="last-name" />
-        <Input type="number" label="Age" id="age" />
+        <Input type="text" label="Name" id="name" onChange={onInputChange} />
+        <Input
+          type="text"
+          label="Last name"
+          id="lastName"
+          onChange={onInputChange}
+        />
+        <Input type="number" label="Age" id="age" onChange={onInputChange} />
 
         <Select
           label="Country"
@@ -54,14 +64,24 @@ const MainForm = (): JSX.Element => {
           ]}
         />
 
-        <Input type="text" label="Hobbies" id="hobbies" />
-        <Input type="text" label="Spoken languages" id="languages" />
+        <Input
+          type="text"
+          label="Hobbies"
+          id="hobbies"
+          onChange={onInputChange}
+        />
+        <Input
+          type="text"
+          label="Spoken languages"
+          id="languages"
+          onChange={onInputChange}
+        />
       </InputsContainer>
 
       <BottomBar>
-        <Button text="Submit" />
+        <Button text="Submit" type="submit" />
       </BottomBar>
-    </FormContainer>
+    </Form>
   );
 };
 

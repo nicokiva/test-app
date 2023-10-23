@@ -1,8 +1,10 @@
 export interface IPerson {
-  name: string;
-  lastName: string;
-  age: number;
-  country: string;
+  name?: string;
+  lastName?: string;
+  age?: number;
+  country?: string;
+  hobbies?: string;
+  languages?: string;
 }
 
 export type PersonContextType = {

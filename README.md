@@ -2,9 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Pre-requisites
+The app allows users to setup new users and preview the input.
 
-Install Node >= 17.
+### Steps to run the app
+
+1. Install Node >= 17.
+2. Run `npm install`.
+3. Run `npm start`.
+4. Enjoy!
+
+## Technical decisions
+
+- Create React App: CRA is a tool that simplifies the creation of new app by setting up the project, creating the skeleton and setting default configuration. CRA was chosen to avoid setting everything up from scratch.
+- Styled components: it is a library used to create styled virtual elements. The library was selected because of its simplicity.
+- Material UI: simple elements such as input were developed manually but more complex elements such as select were imported from MUI.
 
 ## Available Scripts
 

@@ -2,11 +2,13 @@ import styled from "styled-components";
 import useInput from "./useInput";
 import { ChangeEventHandler } from "react";
 
-const Container = styled.div`
+const InputContainer = styled.div<{ error: boolean }>`
   position: relative;
   border: solid 1px;
   height: 30px;
   padding: 10px;
+
+  border-color: ${({ error }) => (error ? "red" : "black")};
 `;
 
 const Label = styled.label`
@@ -35,11 +37,17 @@ const RawInput = styled.input`
   }
 `;
 
+const ErrorMessage = styled.span`
+  color: red;
+  font-size: 12px;
+`;
+
 interface IInputProps {
   id: string;
   type?: "text" | "number";
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
+  errorMessage?: string;
 }
 
 const Input = ({
@@ -47,6 +55,7 @@ const Input = ({
   label,
   id,
   onChange,
+  errorMessage,
 }: IInputProps): JSX.Element => {
   const {
     state: { inputRef },
@@ -54,18 +63,20 @@ const Input = ({
   } = useInput({ type });
 
   return (
-    <Container onClick={onContainerClick}>
-      <RawInput
-        ref={inputRef}
-        type={type}
-        id={id}
-        onKeyDown={onInputKeyDown}
-        onChange={onChange}
-      />
-      <Label onClick={() => console.log("1")} htmlFor={id}>
-        {label}
-      </Label>
-    </Container>
+    <div>
+      <InputContainer onClick={onContainerClick} error={!!errorMessage}>
+        <RawInput
+          ref={inputRef}
+          type={type}
+          id={id}
+          onKeyDown={onInputKeyDown}
+          onChange={onChange}
+        />
+
+        <Label htmlFor={id}>{label}</Label>
+      </InputContainer>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+    </div>
   );
 };
 

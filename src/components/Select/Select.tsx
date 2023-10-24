@@ -1,4 +1,4 @@
-import MUISelect from "@mui/material/Select";
+import MUISelect, { SelectChangeEvent } from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -8,6 +8,8 @@ interface ISelectProps {
   id: string;
   options: Array<{ id: string; label: string }>;
   label: string;
+  onChange: (event: SelectChangeEvent<HTMLSelectElement>) => void;
+  errorMessage?: string;
 }
 
 const Container = styled.div`
@@ -19,7 +21,18 @@ const Container = styled.div`
   }
 `;
 
-const Select = ({ id, options = [], label }: ISelectProps): JSX.Element => {
+const ErrorMessage = styled.span`
+  color: red;
+  font-size: 12px;
+`;
+
+const Select = ({
+  id,
+  options = [],
+  label,
+  onChange,
+  errorMessage,
+}: ISelectProps): JSX.Element => {
   return (
     <Container>
       <FormControl style={{ width: "100%" }}>
@@ -27,10 +40,10 @@ const Select = ({ id, options = [], label }: ISelectProps): JSX.Element => {
 
         <MUISelect
           id={id}
-          // value={age}
           label={label}
-          // onChange={handcleChange}
+          onChange={onChange}
           style={{ height: "52px" }}
+          error={!!errorMessage}
         >
           {options.map((option) => (
             <MenuItem key={option.id} value={option.id}>
@@ -39,6 +52,7 @@ const Select = ({ id, options = [], label }: ISelectProps): JSX.Element => {
           ))}
         </MUISelect>
       </FormControl>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </Container>
   );
 };

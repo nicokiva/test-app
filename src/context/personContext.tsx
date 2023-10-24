@@ -1,7 +1,10 @@
 import { createContext, useState, useContext, PropsWithChildren } from "react";
 import { IPerson, PersonContextType } from "./person";
 
-const PersonContext = createContext<PersonContextType | null>(null);
+const PersonContext = createContext<PersonContextType>({
+  changePerson: () => {},
+  person: null,
+});
 
 export const PersonProvider = ({ children }: PropsWithChildren<{}>) => {
   const [person, setPerson] = useState<IPerson | null>(null);

@@ -34,7 +34,7 @@ const useInput = ({ type }: IUseInputProps): IUseInputResult => {
     Key "e" is allowed even in input number but we do not need it,
     so if the user types it, we discard it.
     */
-    if (Number.isNaN(Number(evt.key))) {
+    if (evt.key.toLowerCase() === "e") {
       evt.preventDefault();
     }
   };

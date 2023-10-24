@@ -2,13 +2,13 @@ import styled from "styled-components";
 import useInput from "./useInput";
 import { ChangeEventHandler } from "react";
 
-const InputContainer = styled.div<{ error: boolean }>`
+const InputContainer = styled.div<{ $error: boolean }>`
   position: relative;
   border: solid 1px;
   height: 30px;
   padding: 10px;
 
-  border-color: ${({ error }) => (error ? "red" : "black")};
+  border-color: ${({ $error }) => ($error ? "red" : "black")};
 `;
 
 const Label = styled.label`
@@ -22,10 +22,20 @@ const Label = styled.label`
   font-size: 16px;
 `;
 
-const RawInput = styled.input`
+const RawInput = styled.input<{ withValue: boolean }>`
   border: 0;
   width: 100%;
   height: 100%;
+
+  ${({ withValue }) =>
+    withValue &&
+    `
+        & + ${Label} {
+      transform: translateY(-45px) translateX(-10px) scale(0.8);
+      color: black;
+      font-weight: bolder;
+    }
+  `}
 
   &:focus {
     outline: none;
@@ -48,6 +58,7 @@ interface IInputProps {
   label: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
   errorMessage?: string;
+  value?: string | number;
 }
 
 const Input = ({
@@ -56,6 +67,7 @@ const Input = ({
   id,
   onChange,
   errorMessage,
+  value,
 }: IInputProps): JSX.Element => {
   const {
     state: { inputRef },
@@ -64,8 +76,10 @@ const Input = ({
 
   return (
     <div>
-      <InputContainer onClick={onContainerClick} error={!!errorMessage}>
+      <InputContainer onClick={onContainerClick} $error={!!errorMessage}>
         <RawInput
+          withValue={!!value}
+          value={value}
           ref={inputRef}
           type={type}
           id={id}

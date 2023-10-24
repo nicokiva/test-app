@@ -14,6 +14,7 @@ interface IUseFormResult {
   state: {
     countries: Array<{ id: string; label: string }>;
     errors: { [key in keyof IPerson]: boolean };
+    person: IPerson | null;
   };
   actions: {
     onFormSubmit: FormEventHandler<HTMLFormElement>;
@@ -49,9 +50,6 @@ const useForm = (): IUseFormResult => {
   const [currentPerson, setCurrentPerson] = useState<IPerson | null>(null);
   const onInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { value = "", id } = target;
-    if (!value) {
-      return;
-    }
 
     setCurrentPerson({ ...currentPerson, [id]: value });
   };
@@ -59,18 +57,24 @@ const useForm = (): IUseFormResult => {
   const onSelectChange = ({
     target: { value },
   }: SelectChangeEvent<HTMLSelectElement>) => {
-    const selectedOption = countries.find((country) => country.id === value);
-    if (!selectedOption) {
+    const country = countries.find((country) => country.id === value);
+    if (!country) {
       return;
     }
 
-    setCurrentPerson({ ...currentPerson, country: selectedOption.label });
+    setCurrentPerson({ ...currentPerson, country: country.id });
   };
 
   const onFormSubmit = (evt: FormEvent) => {
     evt.preventDefault();
 
-    let currentErrors: { [key in keyof IPerson]: boolean } = {};
+    let currentErrors: { [key in keyof IPerson]: boolean } = {
+      name: false,
+      lastName: false,
+      age: false,
+      country: false,
+    };
+
     if (!currentPerson?.name) {
       currentErrors.name = true;
     }
@@ -79,7 +83,7 @@ const useForm = (): IUseFormResult => {
       currentErrors.lastName = true;
     }
 
-    if (!currentPerson?.age) {
+    if (!currentPerson?.age || Number(currentPerson?.age) <= 0) {
       currentErrors.age = true;
     }
 
@@ -87,18 +91,11 @@ const useForm = (): IUseFormResult => {
       currentErrors.country = true;
     }
 
-    if (Object.keys(currentErrors).length) {
-      setErrors(currentErrors);
-      return;
-    }
-
-    console.log(currentErrors);
     setErrors(currentErrors);
 
-    if (!currentPerson) {
+    if (!currentPerson || Object.values(currentErrors).some((error) => error)) {
       return;
     }
-
     changePerson(currentPerson);
   };
 
@@ -111,6 +108,7 @@ const useForm = (): IUseFormResult => {
     state: {
       errors,
       countries,
+      person: currentPerson,
     },
   };
 };

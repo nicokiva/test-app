@@ -40,7 +40,7 @@ const BottomBar = styled.div`
 const Form = (): JSX.Element => {
   const {
     actions: { onFormSubmit, onInputChange, onSelectChange },
-    state: { countries, errors },
+    state: { countries, errors, person },
   } = useMainForm();
 
   return (
@@ -51,23 +51,28 @@ const Form = (): JSX.Element => {
           label="Name *"
           id="name"
           onChange={onInputChange}
+          value={person?.name}
           errorMessage={errors.name ? "Please provide a valid name" : undefined}
         />
+
         <Input
           type="text"
           label="Last name *"
           id="lastName"
+          value={person?.lastName}
           onChange={onInputChange}
           errorMessage={
-            errors.name ? "Please provide a valid last name" : undefined
+            errors.lastName ? "Please provide a valid last name" : undefined
           }
         />
+
         <Input
           type="number"
           label="Age *"
           id="age"
+          value={person?.age}
           onChange={onInputChange}
-          errorMessage={errors.name ? "Please provide a valid age" : undefined}
+          errorMessage={errors.age ? "Please provide a valid age" : undefined}
         />
 
         <Select
@@ -76,20 +81,23 @@ const Form = (): JSX.Element => {
           id="country"
           options={countries}
           errorMessage={
-            errors.name ? "Please provide a valid country" : undefined
+            errors.country ? "Please provide a valid country" : undefined
           }
+          value={person ? person.country : undefined}
         />
 
         <Input
           type="text"
           label="Hobbies"
           id="hobbies"
+          value={person?.hobbies}
           onChange={onInputChange}
         />
         <Input
           type="text"
           label="Spoken languages"
           id="languages"
+          value={person?.languages}
           onChange={onInputChange}
         />
       </InputsContainer>

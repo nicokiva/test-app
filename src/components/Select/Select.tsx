@@ -10,6 +10,7 @@ interface ISelectProps {
   label: string;
   onChange: (event: SelectChangeEvent<HTMLSelectElement>) => void;
   errorMessage?: string;
+  value?: string;
 }
 
 const Container = styled.div`
@@ -32,11 +33,12 @@ const Select = ({
   label,
   onChange,
   errorMessage,
+  value = "",
 }: ISelectProps): JSX.Element => {
   return (
     <Container>
       <FormControl style={{ width: "100%" }}>
-        <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+        <InputLabel>{label}</InputLabel>
 
         <MUISelect
           id={id}
@@ -44,6 +46,7 @@ const Select = ({
           onChange={onChange}
           style={{ height: "52px" }}
           error={!!errorMessage}
+          value={value as ""}
         >
           {options.map((option) => (
             <MenuItem key={option.id} value={option.id}>
